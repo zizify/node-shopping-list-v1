@@ -1,10 +1,11 @@
-
+'use strict';
 const express = require('express');
 const router = express.Router();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {ShoppingList} = require('./models');
+const {Recipes} = require ('./models');
 
 const jsonParser = bodyParser.json();
 const app = express();
@@ -18,10 +19,16 @@ ShoppingList.create('beans', 2);
 ShoppingList.create('tomatoes', 3);
 ShoppingList.create('peppers', 4);
 
+Recipes.create('seaweed', ['50% sea', '50% weed']);
+
 // when the root of this router is called with GET, return
 // all current ShoppingList items
 app.get('/shopping-list', (req, res) => {
   res.json(ShoppingList.get());
+});
+
+app.get('/recipes', (req, res) => {
+  res.json(Recipes.get());
 });
 
 app.listen(process.env.PORT || 8080, () => {
